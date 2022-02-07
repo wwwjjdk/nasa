@@ -1,7 +1,6 @@
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AnswerNasa {
-    private String copyright;
     private String date;
     private String explanation;
     private String hdurl;
@@ -12,7 +11,6 @@ public class AnswerNasa {
 
 
     public AnswerNasa(
-            @JsonProperty("copyright") String copyright,
             @JsonProperty("date") String date,
             @JsonProperty("explanation") String explanation,
             @JsonProperty("hdurl") String hdurl,
@@ -21,7 +19,6 @@ public class AnswerNasa {
             @JsonProperty("title") String title,
             @JsonProperty("url") String url
     ){
-        this.copyright = copyright;
         this.date = date;
         this.explanation = explanation;
         this.hdurl = hdurl;
@@ -31,12 +28,12 @@ public class AnswerNasa {
         this.url = url;
 
     }
-    public String getCopyright() {
-        return copyright;
-    }
+    //public String getCopyright() {
+    //    return copyright;
+    //}
 
     public String getDate() {
-        return date;
+       return date;
     }
 
     public String getExplanation() {
@@ -66,14 +63,13 @@ public class AnswerNasa {
     @Override
     public String toString() {
         return "AnswerNasa{" +
-                "copyright='" + copyright + '\'' +
-                ", date='" + date + '\'' +
-                ", explanation='" + explanation + '\'' +
-                ", hdurl='" + hdurl + '\'' +
-                ", media_type='" + media_type + '\'' +
-                ", service_version='" + service_version + '\'' +
-                ", title='" + title + '\'' +
-                ", url='" + url + '\'' +
+                "date='" + date + "\n" +
+                ", explanation='" + explanation + "\n" +
+                ", hdurl='" + hdurl + "\n" +
+                ", media_type='" + media_type + "\n" +
+                ", service_version='" + service_version + "\n" +
+                ", title='" + title + "\n" +
+                ", url='" + url + "\n" +
                 '}';
     }
 }

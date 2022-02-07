@@ -8,13 +8,16 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainTo {
 
-    public static final String LINK = "https://api.nasa.gov/planetary/apod? api_key=kQledRwJWIiKdv8buA45tWpvcNVHMPn4JDpwKhJF";
+    public static final String LINK = "https://api.nasa.gov/planetary/apod?api_key=kQledRwJWIiKdv8buA45tWpvcNVHMPn4JDpwKhJF";
     public static ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) throws IOException {
@@ -32,15 +35,31 @@ public class MainTo {
         request.setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
         CloseableHttpResponse response = httpClient.execute(request);
+        System.out.println(response.getStatusLine()+"\n");
         Arrays.stream(response.getAllHeaders()).forEach(System.out::println);
-
-        List<AnswerNasa> nasa = mapper.convertValue(
-                response.getEntity().getContent(), new TypeReference<List<AnswerNasa>>() {
+       //String test = new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+        AnswerNasa nasa = mapper.readValue(
+                response.getEntity().getContent(), new TypeReference<AnswerNasa>() {
                 }
         );
-        nasa.forEach(System.out::println);
+        System.out.println(nasa);
+        saveFile(nasa.getUrl(), "photo.jpg");
 
         response.close();
         httpClient.close();
+    }
+
+    public static void saveFile(String url, String path){
+      try(BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream())){
+          FileOutputStream fileOutputStream = new FileOutputStream(path,false);
+          int count;
+          while ((count = inputStream.read()) != -1) {
+               fileOutputStream.write(count);
+               fileOutputStream.flush();}
+      }catch (MalformedURLException e){
+          System.out.println(e.getMessage());
+      }catch (IOException e){
+          System.out.println(e.getMessage());
+      }
     }
 }
