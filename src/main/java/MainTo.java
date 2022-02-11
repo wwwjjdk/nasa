@@ -17,7 +17,7 @@ import java.util.List;
 
 public class MainTo {
 
-    public static final String LINK = "https://api.nasa.gov/planetary/apod?api_key=kQledRwJWIiKdv8buA45tWpvcNVHMPn4JDpwKhJF";
+    public static final String LINK = "https://api.nasa.gov/planetary/apod?api_key=izGpbCqo631QPisvylgxHAjOMOpeld3amyQsnMPl";
     public static ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) throws IOException {
@@ -37,13 +37,14 @@ public class MainTo {
         CloseableHttpResponse response = httpClient.execute(request);
         System.out.println(response.getStatusLine()+"\n");
         Arrays.stream(response.getAllHeaders()).forEach(System.out::println);
-       //String test = new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+       String test = new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
+        System.out.println(test);
         AnswerNasa nasa = mapper.readValue(
-                response.getEntity().getContent(), new TypeReference<AnswerNasa>() {
-                }
+               response.getEntity().getContent(), new TypeReference<AnswerNasa>() {
+               }
         );
         System.out.println(nasa);
-        saveFile(nasa.getUrl(), "photo.jpg");
+        saveFile(nasa.getUrl(), "photo1.jpg");
 
         response.close();
         httpClient.close();
@@ -62,4 +63,6 @@ public class MainTo {
           System.out.println(e.getMessage());
       }
     }
+
+
 }
